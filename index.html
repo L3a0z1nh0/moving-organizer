@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moving Organizer - Google Sheets</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📦 Moving Organizer</h1>
+            <p>Complete system to organize your belongings during the move</p>
+        </div>
+
+        <div class="content">
+            <!-- Search Section -->
+            <div class="section">
+                <h2>🔍 Search Item</h2>
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Type the name of the item you're looking for...">
+                    <div id="searchResult" class="result-box">
+                        Type an item name to see its location, category and owner
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Table -->
+            <div class="section">
+                <h2>📋 Items Inventory</h2>
+                <table id="itemsTable">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Label</th>
+                            <th>Category</th>
+                            <th>Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" placeholder="Ex: Samsung TV"></td>
+                            <td><input type="text" placeholder="Ex: AA1"></td>
+                            <td>
+                                <select>
+                                    <option value="">Select...</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Clothes">Clothes</option>
+                                    <option value="Books">Books</option>
+                                    <option value="Kitchen">Kitchen</option>
+                                    <option value="Decoration">Decoration</option>
+                                    <option value="Documents">Documents</option>
+                                    <option value="Toys">Toys</option>
+                                    <option value="Tools">Tools</option>
+                                    <option value="Furniture">Furniture</option>
+                                    <option value="Shoes">Shoes</option>
+                                    <option value="Bedsheets">Bedsheets</option>
+                                    <option value="Dining Rooms">Dining Rooms</option>
+                                    <option value="Bathroom">Bathroom</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Uniform">Uniform</option>
+                                    <option value="Household">Household</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select>
+                                    <option value="">Select...</option>
+                                    <option value="W">W</option>
+                                    <option value="xcxcxcx">xcxcxcx</option>
+                                    <option value="Petxcxcer">Petxcxcer</option>
+                                    <option value="dgdfbfgh">dgdfbfgh</option>
+                                    <option value="Family">Family</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="add-row-btn" onclick="addRow()">➕ Add New Row</button>
+            </div>
+
+            <!-- Google Sheets Instructions -->
+            <div class="section">
+                <h2>📊 How to Create and use in Google Sheets</h2>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Create the basic structure:</strong><br>
+                    Open Google Sheets and create a new spreadsheet. In the first row, add the headers:
+                    <span class="highlight">A1: Item</span>, <span class="highlight">B1: Label</span>, <span class="highlight">C1: Category</span>, <span class="highlight">D1: Owner</span>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Create dropdown for Category (column C):</strong><br>
+                    Select column C (from C2), go to <span class="highlight">Data > Data validation</span>. 
+                    Choose "List of items" and add: Electronics, Clothes, Books, Kitchen, Decoration, Documents, Toys, Tools, Furniture, Others
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Create dropdown for Owner (column D):</strong><br>
+                    Select column D (from D2), go to <span class="highlight">Data > Data validation</span>. 
+                    Choose "List of items" and add the residents' names (ex: John, Mary, Peter, Anna, Family)
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Create search area:</strong><br>
+                    In a separate area (ex: column F), create:
+                    <ul>
+                        <li><span class="highlight">F1:</span> "Search Item:"</li>
+                        <li><span class="highlight">G1:</span> Cell to type the item</li>
+                        <li><span class="highlight">F2:</span> "Label:"</li>
+                        <li><span class="highlight">F3:</span> "Category:"</li>
+                        <li><span class="highlight">F4:</span> "Owner:"</li>
+                    </ul>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>Add search formulas:</strong><br>
+                    In the cells next to the search labels, add the formulas:
+                </div>
+
+                <div class="formula-section">
+                    <div class="formula-title">🔧 Formulas to copy and paste:</div>
+                    
+                    <strong>In G2 (Label):</strong>
+                    <div class="formula-code">=IF(ISBLANK(G1),"",IFERROR(INDEX(B:B,MATCH(G1,A:A,0)),"Item not found"))</div>
+                    
+                    <strong>In G3 (Category):</strong>
+                    <div class="formula-code">=IF(ISBLANK(G1),"",IFERROR(INDEX(C:C,MATCH(G1,A:A,0)),"Item not found"))</div>
+                    
+                    <strong>In G4 (Owner):</strong>
+                    <div class="formula-code">=IF(ISBLANK(G1),"",IFERROR(INDEX(D:D,MATCH(G1,A:A,0)),"Item not found"))</div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">6</span>
+                    <strong>How to use:</strong><br>
+                    • Fill your table with items, labels, categories and owners<br>
+                    • To search for an item, type its name in cell G1<br>
+                    • The label, category and owner will automatically appear in the cells below<br>
+                    • The search is case-insensitive
+                </div>
+
+                <div class="step">
+                    <span class="step-number">7</span>
+                    <strong>Extra tips:</strong><br>
+                    • Use standardized labels like "AA1", "AA2", etc.<br>
+                    • Keep item names consistent to make searching easier<br>
+                    • Backup the spreadsheet regularly<br>
+                    • Share with other residents for real-time access
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
